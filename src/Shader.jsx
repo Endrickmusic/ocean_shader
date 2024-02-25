@@ -17,8 +17,8 @@ export default function Shader(){
     debugObject.surfaceColor = '#ffb700'
 
     const options = useControls("Controls",{
-      parameter1: { value: 0.5, min: -5, max: 5, step: 0.001 },
-      parameter2: { value: 0.0, min: -5, max: 5, step: 0.001 },
+      BigElevation: { value: 0.5, min: -5, max: 5, step: 0.001 },
+      BigFrequency: { value: 0.0, min: -5, max: 5, step: 0.001 },
       Wireframe: false
       })
 
@@ -27,8 +27,8 @@ export default function Shader(){
  
           if (meshRef.current.material.userData.shader) {
 
-            meshRef.current.material.userData.shader.uniforms.uParameter1.value = options.parameter1
-            meshRef.current.material.userData.shader.uniforms.uParameter2.value = options.parameter2
+            meshRef.current.material.userData.shader.uniforms.uBigWaveElevation.value = options.BigElevation
+            meshRef.current.material.userData.shader.uniforms.uBigWaveFrequency.value = options.BigFrequency
             
             materialRef.current.wireframe = options.Wireframe
           }
