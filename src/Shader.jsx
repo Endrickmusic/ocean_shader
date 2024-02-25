@@ -56,7 +56,7 @@ export default function Shader(){
               ref={materialRef}
               side={DoubleSide}
               wireframe={true}
-              roughness={0.3}
+              roughness={1.3}
               metalness={1.0}
               envMap={envMap}
             />
