@@ -4,9 +4,6 @@ import { useRef, useMemo, useEffect } from "react"
 import { DoubleSide, Vector2, Color } from "three"
 import { useControls } from "leva"
 
-import vertexShader from "./shader/ocean/vertexShader.js"
-import fragmentShader from "./shader/ocean/fragmentShader.js"
-
 import ModifiedShader from './ModifiedShader.jsx'
 
 
@@ -25,39 +22,9 @@ export default function Shader(){
       Wireframe: false
       })
 
-    useFrame((state) => {
 
-      let time = state.clock.getElapsedTime()
-      // meshRef.current.material.uniforms.uTime.value = time
-    
-    })
-  
-      // Define the shader uniforms with memoization to optimize performance
-      const uniforms = useMemo(
-        () => ({
-          uTime: {
-            type: "f",
-            value: 1.0,
-              },
-          uResolution: {
-            type: "v2",
-            value: new Vector2(4, 3),
-            },
-          uParameter1: {
-              type: "f",
-              value: options.parameter1,
-              },
-          uParameter2: {
-              type: "f",
-              value: options.parameter2,
-              }
-         }),[]
-      )   
-
-      useEffect(
-        (state, delta) => {
-
-          
+      useEffect((state, delta) => {
+ 
           if (meshRef.current.material.userData.shader) {
 
             meshRef.current.material.userData.shader.uniforms.uParameter1.value = options.parameter1
