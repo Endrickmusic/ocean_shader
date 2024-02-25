@@ -1,4 +1,4 @@
-import { OrbitControls } from "@react-three/drei"
+import { OrbitControls, useEnvironment } from "@react-three/drei"
 import { useFrame, useThree } from "@react-three/fiber"
 import { useRef, useMemo, useEffect } from "react"
 import { DoubleSide, Vector2, Color } from "three"
@@ -137,19 +137,23 @@ export default function Shader(){
         },
         [options]
       )
-
+  
+  const envMap = useEnvironment({files:'./environments/aerodynamics_workshop_2k.hdr'})
   const viewport = useThree(state => state.viewport)
   
   return (
     <>
       <OrbitControls />  
+
+      <directionalLight />
+
       <mesh 
       ref={meshRef}
       scale={1}
       rotation={[0.6*Math.PI, 0, 0]}
       >
           <planeGeometry args={[1, 1, 512, 512]} />
-          <shaderMaterial
+          <meshStandardMaterial
             ref={materialRef}
             uniforms={uniforms}
             vertexShader={vertexShader}
@@ -157,6 +161,9 @@ export default function Shader(){
             side={DoubleSide}
             wireframe={true}
             wireframeLinewidth={5}
+            roughness={0.3}
+            metalness={1.0}
+            envMap={envMap}
           />
         </mesh>
    </>
