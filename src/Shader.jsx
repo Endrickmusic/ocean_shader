@@ -19,6 +19,7 @@ export default function Shader(){
     const options = useControls("Controls",{
       BigElevation: { value: 0.5, min: -5, max: 5, step: 0.001 },
       BigFrequency: { value: 0.0, min: -5, max: 5, step: 0.001 },
+      BigSpeed: { value: 0.0, min: -5, max: 5, step: 0.001 },
       Wireframe: false
       })
 
@@ -29,6 +30,7 @@ export default function Shader(){
 
             meshRef.current.material.userData.shader.uniforms.uBigWaveElevation.value = options.BigElevation
             meshRef.current.material.userData.shader.uniforms.uBigWaveFrequency.value = options.BigFrequency
+            meshRef.current.material.userData.shader.uniforms.uBigWaveSpeed.value = options.BigSpeed
             
             materialRef.current.wireframe = options.Wireframe
           }
@@ -49,14 +51,14 @@ export default function Shader(){
         <mesh 
         ref={meshRef}
         scale={1}
-        rotation={[0.6*Math.PI, 0, 0]}
+        rotation={[0.5*Math.PI, 0, 0]}
         >
             <planeGeometry args={[1, 1, 512, 512]} />
             <meshStandardMaterial
               ref={materialRef}
               side={DoubleSide}
               wireframe={true}
-              roughness={1.3}
+              roughness={0.3}
               metalness={1.0}
               envMap={envMap}
             />
