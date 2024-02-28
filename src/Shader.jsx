@@ -15,9 +15,11 @@ export default function Shader(){
     debugObject.Color = '#4242c1'
 
     const options = useControls("Controls",{
-      BigElevation: { value: 0.2, min: -5, max: 5, step: 0.001 },
-      BigFrequency: { value: 2.5, min: 0, max: 30, step: 0.001 },
-      BigSpeed: { value: .5, min: -5, max: 5, step: 0.001 },
+      BigElevation: { value: 0.35, min: -5, max: 5, step: 0.001 },
+      BigFrequency: { value: 3.4, min: 0, max: 30, step: 0.001 },
+      BigSpeed: { value: .4, min: -5, max: 5, step: 0.001 },
+      NoiseRangeDown: { value: -1.3, min: -1.3, max: 0, step: 0.001 },
+      NoiseRangeUp: { value: 1.3, min: 0., max: 1.3, step: 0.001 },
       Wireframe: false
       })
 
@@ -29,6 +31,8 @@ export default function Shader(){
             meshRef.current.material.userData.shader.uniforms.uBigWaveElevation.value = options.BigElevation
             meshRef.current.material.userData.shader.uniforms.uBigWaveFrequency.value = options.BigFrequency
             meshRef.current.material.userData.shader.uniforms.uBigWaveSpeed.value = options.BigSpeed
+            meshRef.current.material.userData.shader.uniforms.uNoiseRangeDown.value = options.NoiseRangeDown
+            meshRef.current.material.userData.shader.uniforms.uNoiseRangeUp.value = options.NoiseRangeUp
             
             materialRef.current.wireframe = options.Wireframe
           }
@@ -55,8 +59,8 @@ export default function Shader(){
         rotation={[Math.PI, 0, 0.2 * Math.PI]}
         position={[-0.2, -0.15, 0]}
         >
-            <coneGeometry 
-            args={[.5, 1., 128, 128]} 
+            <planeGeometry 
+            args={[2, 2, 256, 256]} 
             />
             <meshStandardMaterial
               ref={materialRef}

@@ -22,6 +22,14 @@ export default function modMaterial( { meshRef, options } ) {
           uBigWaveSpeed: {
               type: "f",
               value: options.BigSpeed,
+              },
+          uNoiseRangeDown: {
+              type: "f",
+              value: options.NoiseRangeDown,
+              },
+          uNoiseRangeUp: {
+              type: "f",
+              value: options.NoiseRangeUp,
               }
          }),[]
       )   
@@ -52,8 +60,8 @@ export default function modMaterial( { meshRef, options } ) {
             uniform float uBigWaveFrequency;
             uniform float uBigWaveSpeed;
 
-            uniform float uSmallWaveElevation;
-            uniform float uSmallWaveFrequency;
+            uniform float uNoiseRangeUp;
+            uniform float uNoiseRangeDown;
             uniform float uSmallWaveSpeed;
             uniform float uSmallWaveIteration;
 
@@ -156,7 +164,7 @@ export default function modMaterial( { meshRef, options } ) {
 
             float distortedPos(vec3 p){
                 float n = cnoise(p * uBigWaveFrequency + uTime * uBigWaveSpeed) * uBigWaveElevation;
-                float noiseArea = sin(smoothstep(-0.5, 0.2, p.y) * PI);
+                float noiseArea = sin(smoothstep(uNoiseRangeDown, uNoiseRangeUp, p.y) * PI);
                 return n * noiseArea;
             }
 
