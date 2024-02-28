@@ -49,14 +49,16 @@ export default function Shader(){
       <OrbitControls />  
 
       <directionalLight 
-      position={[0, 5, 0]}
+      position={[0, 2, 0]}
+      intensity={5}
       />
 
       <group>      
         <mesh 
         ref={meshRef}
         scale={1}
-        rotation={[-0.0*Math.PI, 0, 0]}
+        rotation={[-0.5*Math.PI, 0, 0]}
+        position={[0, -0.5, 0]}
         >
             <planeGeometry 
             args={[1, 1, 128, 128]} 
@@ -67,7 +69,7 @@ export default function Shader(){
               wireframe={false}
               roughness={1.0}
               metalness={1.0}
-              envMap={envMap}
+              // envMap={envMap}
             />
         </mesh>
 
