@@ -60,8 +60,8 @@ export default function Shader(){
         // rotation={[0.5*Math.PI, 0, 0]}
         position={[0, -0.2, 0]}
         >
-            <planeGeometry 
-            args={[1, 1, 128, 128]} 
+            <sphereGeometry 
+            args={[.5, 128, 128]} 
             />
             <meshStandardMaterial
               ref={materialRef}
@@ -78,11 +78,6 @@ export default function Shader(){
         meshRef={meshRef}
         /> 
 
-        <Box
-        position={[-2, 0, 0]}
-        >
-          <meshNormalMaterial />
-        </Box>
       </group>
    
    </>
