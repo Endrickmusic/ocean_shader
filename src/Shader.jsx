@@ -59,18 +59,18 @@ export default function Shader(){
         <mesh 
         ref={meshRef}
         scale={1}
-        rotation={[Math.PI, 0, 0]}
+        rotation={[Math.PI, 0, 0.2 * Math.PI]}
         position={[0, 0, 0]}
         >
-            <sphereGeometry 
-            args={[.5, 512, 512]} 
+            <coneGeometry 
+            args={[.5, 1., 128, 128]} 
             />
             <meshStandardMaterial
               ref={materialRef}
-              // side={DoubleSide}
+              side={DoubleSide}
               wireframe={false}
-              roughness={1.0}
-              metalness={0.0}
+              roughness={0.2}
+              metalness={1.0}
               envMap={envMap}
             />
         </mesh>

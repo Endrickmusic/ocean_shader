@@ -158,7 +158,7 @@ export default function modMaterial( { meshRef, options } ) {
 
             float distortedPos(vec3 p){
                 float n = cnoise(p * uBigWaveFrequency + uTime * uBigWaveSpeed) * uBigWaveElevation;
-                float noiseArea = sin(smoothstep(-0.3, 0.3, p.y) * PI);
+                float noiseArea = sin(smoothstep(-0.5, 0.2, p.y) * PI);
                 return n * noiseArea;
             }
 
@@ -257,7 +257,7 @@ export default function modMaterial( { meshRef, options } ) {
           // diffuseColor = vec4(col, 1.0);
           // diffuseColor = vec4(vUv, 0., 1.0);
           // diffuseColor = vec4(vNormal, 1.0);
-          gl_FragColor = vec4(vNormal, 1.0);
+          // gl_FragColor = vec4(vNormal, 1.0);
           // diffuseColor = vec4(0.0, 0.0, 1.0, 1.0);
           `
      )
