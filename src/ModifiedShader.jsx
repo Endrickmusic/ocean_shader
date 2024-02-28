@@ -158,7 +158,7 @@ export default function modMaterial( { meshRef, options } ) {
 
             vec3 orthogonal(vec3 n){
               return normalize(
-                  abs(n.y) > abs(n.x) ? vec3(n.y, 0, n.z) : vec3(0., -n.z, n.y)
+                  abs(n.x) > abs(n.z) ? vec3(n.y, 0, n.x) : vec3(0., -n.z, n.y)
               );
             }
         ` 
@@ -175,9 +175,9 @@ export default function modMaterial( { meshRef, options } ) {
         )
 
       shader.vertexShader = shader.vertexShader.replace(
-        'void main() {',
+        '#include <begin_vertex>',
         `
-        void main() {    
+         #include <begin_vertex>    
            
             float elevation = waveElevation(position.xyz);
 
@@ -198,20 +198,25 @@ export default function modMaterial( { meshRef, options } ) {
                 vec3 displacedBitangent = displacedN2 - elevation;
 
                 vec3 displacedNormal = normalize(cross(displacedTangent, displacedBitangent));
-                vNormal = displacedNormal;
-             
+               
+                transformed.z += elevation;
+                
+                // Varyings
+                vUv = uv;
+                vElevation = elevation;
+                // vNormal = displacedNormal;
         `)
 
-        shader.vertexShader = shader.vertexShader.replace(
-        '#include <displacementmap_vertex>', 
-        `transformed.z += elevation;`
-        )
+        // shader.vertexShader = shader.vertexShader.replace(
+        // '#include <displacementmap_vertex>', 
+        // ``
+        // )
 
-        shader.vertexShader = shader.vertexShader.replace(
-        '#include <defaultnormal_vertex>', 
-        ShaderChunk.defaultnormal_vertex.replace('vec3 transformedNormal = objectNormal;', `vec3 transformedNormal = displacedNormal;
-        vNormal = displacedNormal;`)
-        )
+        // shader.vertexShader = shader.vertexShader.replace(
+        // '#include <defaultnormal_vertex>', 
+        // ShaderChunk.defaultnormal_vertex.replace('vec3 transformedNormal = objectNormal;', `vec3 transformedNormal = displacedNormal;
+        // vNormal = displacedNormal;`)
+        // )
 
         shader.fragmentShader = shader.fragmentShader.replace(
           '#include <common>',
@@ -236,9 +241,9 @@ export default function modMaterial( { meshRef, options } ) {
           '#include <color_fragment>',
           `
           #include <color_fragment>
-          // vec3 col = 0.5 + 0.5 * cos(uTime * 0.4 + vUv.xyx + vec3(0,2,4));
-          // diffuseColor = vec4(col, 1.0);
-          diffuseColor = vec4(vNormal, 1.0);
+          vec3 col = 0.5 + 0.5 * cos(uTime * 0.4 + vUv.xyx + vec3(0,2,4));
+          diffuseColor = vec4(col, 1.0);
+          // diffuseColor = vec4(vNormal, 1.0);
           // diffuseColor = vec4(0.0, 0.0, 1.0, 1.0);
           `
      )

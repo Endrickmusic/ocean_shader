@@ -50,7 +50,7 @@ export default function Shader(){
 
       <directionalLight 
       position={[0, 2, 0]}
-      intensity={5}
+      intensity={15}
       />
 
       <group>      
@@ -69,14 +69,14 @@ export default function Shader(){
               wireframe={false}
               roughness={1.0}
               metalness={1.0}
-              // envMap={envMap}
+              envMap={envMap}
             />
         </mesh>
 
         <ModifiedShader 
         options={options}
         meshRef={meshRef}
-        />
+        /> 
 
         <Box
         position={[-2, 0, 0]}
