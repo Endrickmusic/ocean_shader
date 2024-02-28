@@ -3,7 +3,7 @@ attribute vec4 vertexPosition;
 
 uniform float uTime;
 uniform float uBigWaveElevation;
-uniform vec2 uBigWaveFrequency;
+uniform vec2  uBigWaveFrequency;
 uniform float uBigWaveSpeed;
 
 uniform float uSmallWaveElevation;
@@ -91,6 +91,7 @@ float cnoise(vec3 P){
   float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x); 
   return 2.2 * n_xyz;
 }
+
 
 void main() {
 
