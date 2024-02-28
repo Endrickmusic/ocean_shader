@@ -1,7 +1,6 @@
-import { OrbitControls, useEnvironment, Box } from "@react-three/drei"
-import { useFrame, useThree } from "@react-three/fiber"
-import { useRef, useMemo, useEffect } from "react"
-import { DoubleSide, Vector2, Color, BoxGeometry, MeshNormalMaterial } from "three"
+import { OrbitControls, useEnvironment } from "@react-three/drei"
+import { useRef, useEffect } from "react"
+import { DoubleSide } from "three"
 import { useControls } from "leva"
 
 import ModifiedShader from './ModifiedShader.jsx'
@@ -13,12 +12,11 @@ export default function Shader(){
     const materialRef = useRef()
     const debugObject = {}
 
-    debugObject.depthColor = '#4242c1'
-    debugObject.surfaceColor = '#ffb700'
+    debugObject.Color = '#4242c1'
 
     const options = useControls("Controls",{
-      BigElevation: { value: 0.12, min: -5, max: 5, step: 0.001 },
-      BigFrequency: { value: 5., min: 0, max: 30, step: 0.001 },
+      BigElevation: { value: 0.2, min: -5, max: 5, step: 0.001 },
+      BigFrequency: { value: 2.5, min: 0, max: 30, step: 0.001 },
       BigSpeed: { value: .5, min: -5, max: 5, step: 0.001 },
       Wireframe: false
       })
@@ -34,15 +32,12 @@ export default function Shader(){
             
             materialRef.current.wireframe = options.Wireframe
           }
-
-          meshRef.current.geometry.computeVertexNormals()
         },
         [options]
 
       )
   
   const envMap = useEnvironment({files:'./environments/aerodynamics_workshop_2k.hdr'})
-  const viewport = useThree(state => state.viewport)
   
   return (
     <>
@@ -52,15 +47,12 @@ export default function Shader(){
       position={[0, 2, 0]}
       intensity={3}
       />
-      <axesHelper 
-      position={[-1, 0, 0]}
-      />
       <group>      
         <mesh 
         ref={meshRef}
         scale={1}
         rotation={[Math.PI, 0, 0.2 * Math.PI]}
-        position={[0, 0, 0]}
+        position={[-0.2, -0.15, 0]}
         >
             <coneGeometry 
             args={[.5, 1., 128, 128]} 

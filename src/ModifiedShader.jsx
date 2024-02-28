@@ -1,4 +1,3 @@
-import { RGBADepthPacking, MeshDepthMaterial, MathUtils, ShaderChunk } from "three"
 import { useMemo, useLayoutEffect } from "react"
 import { useFrame } from '@react-three/fiber'
 
@@ -37,7 +36,6 @@ export default function modMaterial( { meshRef, options } ) {
 
     meshRef.current.material.onBeforeCompile = (shader) => {
 
-        console.log('Shader compilation triggered')
     shader.uniforms = {...customUniforms, ...shader.uniforms }  
 
     shader.vertexShader = shader.vertexShader.replace(
@@ -175,6 +173,7 @@ export default function modMaterial( { meshRef, options } ) {
            
             `
             #include <beginnormal_vertex>
+            
             // Compute normals
 
                 vec3 displacedPosition = position + normal * distortedPos(position);
@@ -202,33 +201,15 @@ export default function modMaterial( { meshRef, options } ) {
         '#include <begin_vertex>',
         `
          #include <begin_vertex>    
-           
-        
-        
+              
         transformed = displacedPosition;
 
-            
-               
                 // transformed.z += elevation;
                 
                 // Varyings
                 vUv = uv;
-                // vElevation = elevation;
                 vNormal = displacedNormal;
         `)
-
-        shader.vertexShader = shader.vertexShader.replace(
-        '#include <project_vertex>', 
-        `
-        
-        #include <project_vertex>`
-        )
-
-        // shader.vertexShader = shader.vertexShader.replace(
-        // '#include <defaultnormal_vertex>', 
-        // ShaderChunk.defaultnormal_vertex.replace('vec3 transformedNormal = objectNormal;', `vec3 transformedNormal = displacedNormal;
-        // vNormal = displacedNormal;`)
-        // )
 
         shader.fragmentShader = shader.fragmentShader.replace(
           '#include <common>',
@@ -250,15 +231,13 @@ export default function modMaterial( { meshRef, options } ) {
           `
      )
         shader.fragmentShader = shader.fragmentShader.replace(
-          '#include <dithering_fragment>',
+
+          '#include <color_fragment>',
           `
-          #include <dithering_fragment>
-          // vec3 col = 0.5 + 0.5 * cos(uTime * 0.4 + vUv.xyx + vec3(0,2,4));
-          // diffuseColor = vec4(col, 1.0);
-          // diffuseColor = vec4(vUv, 0., 1.0);
-          // diffuseColor = vec4(vNormal, 1.0);
-          // gl_FragColor = vec4(vNormal, 1.0);
-          // diffuseColor = vec4(0.0, 0.0, 1.0, 1.0);
+          #include <color_fragment>
+
+          vec3 col = 0.5 + 0.5 * cos(uTime * 0.4 + vUv.xyx + vec3(0,2,4));
+          diffuseColor = vec4(col, 1.0);
           `
      )
 
