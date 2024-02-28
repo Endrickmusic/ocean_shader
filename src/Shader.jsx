@@ -17,9 +17,9 @@ export default function Shader(){
     debugObject.surfaceColor = '#ffb700'
 
     const options = useControls("Controls",{
-      BigElevation: { value: 0.05, min: -5, max: 5, step: 0.001 },
-      BigFrequency: { value: 2., min: 0, max: 30, step: 0.001 },
-      BigSpeed: { value: .05, min: -5, max: 5, step: 0.001 },
+      BigElevation: { value: 0.12, min: -5, max: 5, step: 0.001 },
+      BigFrequency: { value: 5., min: 0, max: 30, step: 0.001 },
+      BigSpeed: { value: .5, min: -5, max: 5, step: 0.001 },
       Wireframe: false
       })
 
@@ -52,7 +52,9 @@ export default function Shader(){
       position={[0, 2, 0]}
       intensity={3}
       />
-
+      <axesHelper 
+      position={[-1, 0, 0]}
+      />
       <group>      
         <mesh 
         ref={meshRef}
@@ -61,7 +63,7 @@ export default function Shader(){
         position={[0, 0, 0]}
         >
             <sphereGeometry 
-            args={[.5, 128, 128]} 
+            args={[.5, 512, 512]} 
             />
             <meshStandardMaterial
               ref={materialRef}

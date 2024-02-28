@@ -163,7 +163,7 @@ export default function modMaterial( { meshRef, options } ) {
 
             vec3 orthogonal(vec3 n){
               return normalize(
-                  abs(n.x) > abs(n.z) ? vec3(n.y, 0, n.x) : vec3(0., -n.z, n.y)
+                  abs(n.x) > abs(n.z) ? vec3(-n.y, n.x, 0.) : vec3(0., -n.z, n.y)
               );
             }
         ` 
@@ -174,7 +174,25 @@ export default function modMaterial( { meshRef, options } ) {
            
             `
             #include <beginnormal_vertex>
-            
+            // Compute normals
+
+                vec3 displacedPosition = position + normal * distortedPos(position);
+
+                float eps = 0.001;    
+
+                vec3 tangent = orthogonal(normal);
+                vec3 bitangent = normalize(cross(tangent, normal));
+
+                vec3 neighbour1 = position + tangent * eps;
+                vec3 neighbour2 = position + bitangent * eps;
+
+                vec3 displacedN1 = neighbour1 + normal * distortedPos(neighbour1);
+                vec3 displacedN2 = neighbour2 + normal * distortedPos(neighbour2);
+
+                vec3 displacedTangent = displacedN1 - displacedPosition;
+                vec3 displacedBitangent = displacedN2 - displacedPosition;
+
+                vec3 displacedNormal = normalize(cross(displacedTangent, displacedBitangent));
                 
             `
         )
@@ -184,34 +202,18 @@ export default function modMaterial( { meshRef, options } ) {
         `
          #include <begin_vertex>    
            
-        vec3 displacedPosition = position + normal * distortedPos(position);
+        
         
         transformed = displacedPosition;
 
-            // Compute normals
-
-                // float eps = 0.0001;    
-
-                // vec3 tangent = orthogonal(normal);
-                // vec3 bitangent = normalize(cross(tangent, normal));
-
-                // vec3 neighbour1 = position + tangent * eps;
-                // vec3 neighbour2 = position + bitangent * eps;
-
-                // vec3 displacedN1 = neighbour1 + normal * waveElevation(neighbour1);
-                // vec3 displacedN2 = neighbour2 + normal * waveElevation(neighbour2);
-
-                // vec3 displacedTangent = displacedN1 - elevation;
-                // vec3 displacedBitangent = displacedN2 - elevation;
-
-                // vec3 displacedNormal = normalize(cross(displacedTangent, displacedBitangent));
+            
                
                 // transformed.z += elevation;
                 
                 // Varyings
                 vUv = uv;
                 // vElevation = elevation;
-                // vNormal = normal;
+                vNormal = displacedNormal;
         `)
 
         shader.vertexShader = shader.vertexShader.replace(
