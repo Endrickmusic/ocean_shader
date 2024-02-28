@@ -158,7 +158,8 @@ export default function modMaterial( { meshRef, options } ) {
 
             float distortedPos(vec3 p){
                 float n = cnoise(p * uBigWaveFrequency + uTime * uBigWaveSpeed) * uBigWaveElevation;
-                return n;
+                float noiseArea = sin(smoothstep(-0.3, 0.3, p.y) * PI);
+                return n * noiseArea;
             }
 
             vec3 orthogonal(vec3 n){
