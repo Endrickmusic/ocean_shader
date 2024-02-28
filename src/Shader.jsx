@@ -17,9 +17,9 @@ export default function Shader(){
     debugObject.surfaceColor = '#ffb700'
 
     const options = useControls("Controls",{
-      BigElevation: { value: 0.3, min: -5, max: 5, step: 0.001 },
-      BigFrequency: { value: 5, min: 0, max: 30, step: 0.001 },
-      BigSpeed: { value: 0.5, min: -5, max: 5, step: 0.001 },
+      BigElevation: { value: 0.05, min: -5, max: 5, step: 0.001 },
+      BigFrequency: { value: 2., min: 0, max: 30, step: 0.001 },
+      BigSpeed: { value: .05, min: -5, max: 5, step: 0.001 },
       Wireframe: false
       })
 
@@ -50,7 +50,7 @@ export default function Shader(){
 
       <directionalLight 
       position={[0, 2, 0]}
-      intensity={15}
+      intensity={3}
       />
 
       <group>      
@@ -65,10 +65,10 @@ export default function Shader(){
             />
             <meshStandardMaterial
               ref={materialRef}
-              side={DoubleSide}
+              // side={DoubleSide}
               wireframe={false}
               roughness={1.0}
-              metalness={1.0}
+              metalness={0.0}
               envMap={envMap}
             />
         </mesh>

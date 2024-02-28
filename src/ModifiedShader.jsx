@@ -157,7 +157,8 @@ export default function modMaterial( { meshRef, options } ) {
             }
 
             float distortedPos(vec3 p){
-                float n = cnoise(p);
+                float n = cnoise(p * uBigWaveFrequency + uTime * uBigWaveSpeed) * uBigWaveElevation;
+                return n;
             }
 
             vec3 orthogonal(vec3 n){
@@ -183,7 +184,7 @@ export default function modMaterial( { meshRef, options } ) {
         `
          #include <begin_vertex>    
            
-        vec3 displacedPosition = position + normal * sin(position.x * uBigWaveFrequency + uTime * uBigWaveSpeed) * uBigWaveElevation;
+        vec3 displacedPosition = position + normal * distortedPos(position);
         
         transformed = displacedPosition;
 
@@ -210,13 +211,15 @@ export default function modMaterial( { meshRef, options } ) {
                 // Varyings
                 vUv = uv;
                 // vElevation = elevation;
-                // vNormal = displacedNormal;
+                // vNormal = normal;
         `)
 
-        // shader.vertexShader = shader.vertexShader.replace(
-        // '#include <displacementmap_vertex>', 
-        // ``
-        // )
+        shader.vertexShader = shader.vertexShader.replace(
+        '#include <project_vertex>', 
+        `
+        
+        #include <project_vertex>`
+        )
 
         // shader.vertexShader = shader.vertexShader.replace(
         // '#include <defaultnormal_vertex>', 
@@ -244,13 +247,14 @@ export default function modMaterial( { meshRef, options } ) {
           `
      )
         shader.fragmentShader = shader.fragmentShader.replace(
-          '#include <color_fragment>',
+          '#include <dithering_fragment>',
           `
-          #include <color_fragment>
+          #include <dithering_fragment>
           // vec3 col = 0.5 + 0.5 * cos(uTime * 0.4 + vUv.xyx + vec3(0,2,4));
           // diffuseColor = vec4(col, 1.0);
-          diffuseColor = vec4(vUv, 0., 1.0);
-          // diffuseColor = vec4(vNormal, 0., 1.0);
+          // diffuseColor = vec4(vUv, 0., 1.0);
+          // diffuseColor = vec4(vNormal, 1.0);
+          gl_FragColor = vec4(vNormal, 1.0);
           // diffuseColor = vec4(0.0, 0.0, 1.0, 1.0);
           `
      )
