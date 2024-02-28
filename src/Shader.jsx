@@ -17,8 +17,8 @@ export default function Shader(){
     debugObject.surfaceColor = '#ffb700'
 
     const options = useControls("Controls",{
-      BigElevation: { value: 0.02, min: -5, max: 5, step: 0.001 },
-      BigFrequency: { value: 3.5, min: -5, max: 5, step: 0.001 },
+      BigElevation: { value: 0.3, min: -5, max: 5, step: 0.001 },
+      BigFrequency: { value: 5, min: 0, max: 15, step: 0.001 },
       BigSpeed: { value: 0.5, min: -5, max: 5, step: 0.001 },
       Wireframe: false
       })
@@ -57,8 +57,8 @@ export default function Shader(){
         <mesh 
         ref={meshRef}
         scale={1}
-        rotation={[-0.5*Math.PI, 0, 0]}
-        position={[0, -0.5, 0]}
+        // rotation={[0.5*Math.PI, 0, 0]}
+        position={[0, -0.2, 0]}
         >
             <planeGeometry 
             args={[1, 1, 128, 128]} 
