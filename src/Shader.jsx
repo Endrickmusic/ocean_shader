@@ -59,7 +59,7 @@ export default function Shader(){
         <mesh 
         ref={meshRef}
         scale={1}
-        // rotation={[0.5*Math.PI, 0, 0]}
+        rotation={[Math.PI, 0, 0]}
         position={[0, 0, 0]}
         >
             <sphereGeometry 
