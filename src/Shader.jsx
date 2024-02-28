@@ -1,4 +1,4 @@
-import { OrbitControls, useEnvironment } from "@react-three/drei"
+import { OrbitControls, useEnvironment, useTexture } from "@react-three/drei"
 import { useRef, useEffect } from "react"
 import { DoubleSide } from "three"
 import { useControls } from "leva"
@@ -38,6 +38,7 @@ export default function Shader(){
       )
   
   const envMap = useEnvironment({files:'./environments/aerodynamics_workshop_2k.hdr'})
+  const [normalMap, roughnessMap] = useTexture(['./textures/waternormals.jpeg', './textures/SurfaceImperfections003_1K_var1.jpg'])
   
   return (
     <>
@@ -61,9 +62,12 @@ export default function Shader(){
               ref={materialRef}
               side={DoubleSide}
               wireframe={false}
-              roughness={0.2}
-              metalness={1.0}
+              roughness={0.05}
+              roughnessMap={roughnessMap}
+              metalness={0.3}
               envMap={envMap}
+              normalMap={normalMap}
+              normalScale={0.05}
             />
         </mesh>
 
