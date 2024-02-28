@@ -18,7 +18,7 @@ export default function Shader(){
 
     const options = useControls("Controls",{
       BigElevation: { value: 0.3, min: -5, max: 5, step: 0.001 },
-      BigFrequency: { value: 5, min: 0, max: 15, step: 0.001 },
+      BigFrequency: { value: 5, min: 0, max: 30, step: 0.001 },
       BigSpeed: { value: 0.5, min: -5, max: 5, step: 0.001 },
       Wireframe: false
       })
@@ -58,7 +58,7 @@ export default function Shader(){
         ref={meshRef}
         scale={1}
         // rotation={[0.5*Math.PI, 0, 0]}
-        position={[0, -0.2, 0]}
+        position={[0, 0, 0]}
         >
             <sphereGeometry 
             args={[.5, 128, 128]} 
