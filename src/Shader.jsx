@@ -1,4 +1,4 @@
-import { OrbitControls, useEnvironment, useTexture } from "@react-three/drei"
+import { OrbitControls, useEnvironment, useTexture, Text } from "@react-three/drei"
 import { useRef, useEffect } from "react"
 import { DoubleSide } from "three"
 import { useControls } from "leva"
@@ -35,6 +35,7 @@ export default function Shader(){
             meshRef.current.material.userData.shader.uniforms.uNoiseRangeUp.value = options.NoiseRangeUp
             
             materialRef.current.wireframe = options.Wireframe
+            console.log(meshRef.current)
           }
         },
         [options]
@@ -53,7 +54,7 @@ export default function Shader(){
       intensity={3}
       />
       <group>      
-        <mesh 
+        {/* <mesh 
         ref={meshRef}
         scale={1}
         rotation={[Math.PI, 0, 0.2 * Math.PI]}
@@ -73,11 +74,28 @@ export default function Shader(){
               normalMap={normalMap}
               normalScale={0.05}
             />
-        </mesh>
+        </mesh> */}
+        <Text
+        ref={meshRef}
+        glyphGeometryDetail={256}
+        >
+          Hello, hello 
+          <meshStandardMaterial
+              ref={materialRef}
+              wireframe={false}
+              roughness={0.05}
+              roughnessMap={roughnessMap}
+              metalness={0.3}
+              envMap={envMap}
+              normalMap={normalMap}
+              normalScale={0.05}
+              side={DoubleSide}
+            />
+        </Text>
 
         <ModifiedShader 
         options={options}
-        meshRef={meshRef}
+        materialRef={materialRef}
         /> 
 
       </group>

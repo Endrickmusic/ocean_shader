@@ -1,7 +1,7 @@
 import { useMemo, useLayoutEffect } from "react"
 import { useFrame } from '@react-three/fiber'
 
-export default function modMaterial( { meshRef, options } ) {
+export default function modMaterial( { materialRef, options } ) {
 
     const customUniforms = useMemo(
         () => ({
@@ -35,14 +35,16 @@ export default function modMaterial( { meshRef, options } ) {
       )   
 
     useFrame((state, delta) => {
-        if (meshRef.current.material.userData.shader){
-        meshRef.current.material.userData.shader.uniforms.uTime.value += delta
+        if (materialRef.current.userData.shader){
+        materialRef.current.userData.shader.uniforms.uTime.value += delta
       }   
       })
 
     useLayoutEffect(() => {
+      console.log(materialRef.current)
 
-    meshRef.current.material.onBeforeCompile = (shader) => {
+    
+    materialRef.current.onBeforeCompile = (shader) => {
 
     shader.uniforms = {...customUniforms, ...shader.uniforms }  
 
@@ -250,9 +252,9 @@ export default function modMaterial( { meshRef, options } ) {
      )
 
 
-     meshRef.current.material.userData.shader = shader
+     materialRef.current.userData.shader = shader
     }
-  console.log(meshRef.current.material.userData)
+  console.log(materialRef.current)
 
 }, [])
 
