@@ -13,7 +13,7 @@ function App() {
       position: [0, 0, 2],
       fov: 40 }}  
     >
-      <color attach="background" args={[0x999999]} />
+      <color attach="background" args={[0x232323]} />
       <Shader />
     </Canvas>
   </>
